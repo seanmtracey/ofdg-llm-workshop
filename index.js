@@ -2,7 +2,13 @@
 require('dotenv').config({silent : false});
 const fs = require('fs');
 const { Moneyhub } = require("@mft/moneyhub-api-client");
-const express = require('express')
+
+const PORT = process.env.PORT || 3000;
+
+const express = require('express');
+const app = express();
+
+app.use(express.static('public'))
 
 const PRIVATE_KEY = JSON.parse(fs.readFileSync(`${__dirname}/private_key.pem`, "utf8"));
 
@@ -58,5 +64,48 @@ const config = {
 
 }());
 
+app.get('/transactions', async(req, res, next) => {
 
+    const mh = await Moneyhub(config);
+
+    const users = await mh.getUsers();
+
+    const user = users.data[0]
+
+    console.log(user);
+
+    const accounts = await mh.getAccounts({
+        userId: user.userId,
+        params: {
+            limit: 10,
+            offset: 0,
+            showTransactionData: true,
+            showPerformanceScore: false
+        },
+    });
+
+    console.log("accounts:", accounts);
+
+    const currentAccount = accounts.data[1];
+
+    console.log("currentAccount:", currentAccount)
+
+    const transactions = await mh.getTransactions({
+        userId: user.userId,
+        params: {
+            limit: 1000,
+            offset: 0
+        },
+    });
+
+    console.log("transactions:", transactions);
+    console.log("First transaction:", transactions.data[0]);
+
+    res.json(transactions);
+
+});
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`)
+});
 

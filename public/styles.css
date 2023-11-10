@@ -1,0 +1,157 @@
+html, body{
+    margin:0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: #22292d;
+    color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+body{
+    justify-content: center;
+}
+
+nav{
+    background-color: #181d20;
+    position: fixed;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1em;
+    top: 0;
+    left: 0;
+}
+
+main{
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    max-width: 1280px;
+    text-align: center;
+    justify-content: flex-start;
+    padding-top: 4em;
+    flex-direction: column;
+    align-items: center;
+}
+
+#transcript{
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+#transcript div{
+    width: auto;
+    max-width: 75%;
+    align-self: flex-end;
+    padding: 0.5em;
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0px 3px 5px #0000002b;
+    text-shadow: 0 1px 1px black;
+    margin-bottom: 1em;
+}
+
+#transcript div p{
+    margin: 0;
+}
+
+#transcript div.userInput{
+    background: #586d7b;
+    text-align: right;
+}
+
+#transcript div.aiResponse{
+    background: #7b587b;
+    text-align: left;
+    align-self: flex-start;
+}
+
+form{
+    position: fixed;
+    bottom: 1em;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+}
+
+form input[type="text"]{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    padding: 0.5em;
+    border-radius: 3px;
+    background-color: black;
+    box-sizing: border-box;
+    font-size: 1em;
+    color: white;
+}
+
+#transactions{
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: white;
+    width: 350px;
+    height: 100%;
+    color: black;
+    box-sizing: border-box;
+    padding: 1em;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#transactions[data-state="closed"]{
+    transform: translateX(-100%);
+}
+
+#transactions #tab{
+    width: 30px;
+    height: 50px;
+    background: white;
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    background-image: url("/arrow.png");
+    background-size: 10px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+#transactions h3{
+    margin-top: 0;
+}
+
+#transactions ol{
+    list-style-type: none;
+    padding: 0;
+    overflow: scroll;
+}
+
+#transactions ol li{
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #0000005c;
+    padding-bottom: 0.5em;
+}
+
+
+#transactions li h4{
+    margin: 0;
+    margin-bottom: 0.5em;
+}
+
+#transactions li h5{
+    margin: 0.3em 0;
+}
+
+#transactions li span{
+    font-size: 0.75em;
+}
