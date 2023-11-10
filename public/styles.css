@@ -36,12 +36,12 @@ main{
 }
 
 #transcript{
-    width: 100%;
     max-width: 800px;
     height: 100%;
     overflow: scroll;
     display: flex;
     flex-direction: column;
+    padding-bottom: 3em;
 }
 
 #transcript div{
