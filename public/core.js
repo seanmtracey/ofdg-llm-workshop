@@ -24,16 +24,17 @@
         ;
     }
 
-    function addResponseToTranscript(message){
+    function addResponseToTranscript(data){
 
         const docFrag = document.createDocumentFragment();
         const div = document.createElement('div');
-        const p = document.createElement('p');
+        const pre = document.createElement('pre');
         
+        div.dataset.messageid = data.id;
         div.classList.add('aiResponse');
-        p.textContent = message;
+        pre.textContent = data.message;
 
-        div.appendChild(p);
+        div.appendChild(pre);
         docFrag.appendChild(div);
 
         transcript.appendChild(docFrag);
@@ -54,13 +55,19 @@
 
         transcript.appendChild(docFrag);
 
+        const lastMessage = Array.from(transcript.querySelectorAll('.aiResponse')).pop();
+
+        const parentMessageId = lastMessage ? lastMessage.dataset.messageid : "";
+        console.log(parentMessageId);
+
         fetch('/chat', {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
-                message
+                message,
+                parentMessageId
             })
         })
         .then(res => {
@@ -72,7 +79,7 @@
         })
         .then(response => {
             console.log(response);
-            addResponseToTranscript(response.message);
+            addResponseToTranscript(response);
         })
         .catch(err => {
             console.log("sendMessageToServer err:", err);

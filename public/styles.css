@@ -71,6 +71,11 @@ main{
     align-self: flex-start;
 }
 
+#transcript div.aiResponse pre{
+    white-space: pre-wrap;
+    display: block;
+}
+
 form{
     position: fixed;
     bottom: 1em;

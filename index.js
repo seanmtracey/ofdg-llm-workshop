@@ -1,20 +1,32 @@
 // Generate JWT: https://docs.moneyhubenterprise.com/docs/create-a-client
-require('dotenv').config({silent : false});
-const fs = require('fs');
-const { Moneyhub } = require("@mft/moneyhub-api-client");
+//require('dotenv').config({silent : false});
+import _ from './env.js'
+import fs from 'fs';
+import path from 'path';
+import { Moneyhub } from "@mft/moneyhub-api-client";
+
+import { ChatGPTAPI } from 'chatgpt'
+
+const gptAPI = new ChatGPTAPI({
+    apiKey: process.env.OPENAI_API_KEY
+});
 
 const PORT = process.env.PORT || 3000;
 
-const express = require('express');
-const bodyParser = require('body-parser');
+import express from 'express';
+import bodyParser from 'body-parser';
+
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
 
 const PRIVATE_KEY = JSON.parse(fs.readFileSync(`${__dirname}/private_key.pem`, "utf8"));
-
-// console.log(PRIVATE_KEY);
 
 const config = {
     resourceServerUrl: "https://api.moneyhub.co.uk/v2.0",
@@ -74,15 +86,23 @@ app.get('/transactions', async(req, res, next) => {
 
 });
 
-app.post('/chat', (req, res, next) => {
+app.post('/chat', async (req, res, next) => {
 
     console.log(req.body);
 
-    res.json(req.body);
+    const response = await gptAPI.sendMessage(req.body.message,{
+        parentMessageId: req.body.parentMessageId
+    });
+
+    console.log(response.text);
+
+    res.json({
+        message : response.text,
+        id: response.id
+    });
 
 });
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`)
 });
-
