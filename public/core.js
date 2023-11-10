@@ -111,6 +111,9 @@
 
                 const li = document.createElement('li');
 
+                li.dataset.data = JSON.stringify(datum);
+                li.dataset.selected = "false";
+
                 const h4 = document.createElement('h4');
                 const h5 = document.createElement('h5');
                 const span = document.createElement('span');
@@ -122,6 +125,10 @@
                 li.appendChild(h4);
                 li.appendChild(h5);
                 li.appendChild(span);
+
+                li.addEventListener('click', function(e){
+                    this.dataset.selected = this.dataset.selected === "false" ? "true" : "false";
+                }, false);
 
                 docFrag.appendChild(li);
 
