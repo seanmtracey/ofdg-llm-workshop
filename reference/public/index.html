@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OFDG Open Banking + LLMs Demo App</title>
+    <link rel='stylesheet' href='/styles.css' />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <nav>OFDG LLM App</nav>
+
+    <main>
+
+        <section id="transcript">
+
+            <!-- <div class="userInput">
+                <p>Hi there!</p>
+            </div>
+
+            <div class="aiResponse">
+                <p>Hello, world!</p>
+            </div> -->
+
+        </section>
+
+        <form>
+            <input type="text" placeholder="What would you like to ask?"/>
+        </form>
+
+    </main>
+
+    <section id="transactions" data-state="closed">
+        <h3>Transactions</h3>
+        <div id="tab"></div>
+        <ol>
+            <li>
+                <h4>- £23.00</h4>
+                <h5>3UK</h5>
+                <span>Direct Debit 3UK GEDxxxx6090 DDR</span>
+            </li>
+        </ol>
+    </section>
+
+    <script src="/core.js"></script>
+
+</body>
+</html>

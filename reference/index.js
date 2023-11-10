@@ -47,9 +47,41 @@ const config = {
 
 app.get('/transactions', async(req, res, next) => {
 
-    const transactions = {
-        data : []
-    }
+    const mh = await Moneyhub(config);
+
+    const users = await mh.getUsers();
+
+    const user = users.data[0]
+
+    console.log(user);
+
+    const accounts = await mh.getAccounts({
+        userId: user.userId,
+        params: {
+            limit: 10,
+            offset: 0,
+            showTransactionData: true,
+            showPerformanceScore: false
+        },
+    });
+
+    console.log("accounts:", accounts);
+
+    const currentAccount = accounts.data[1];
+
+    console.log("currentAccount:", currentAccount)
+
+    const transactions = await mh.getTransactions({
+        userId: user.userId,
+        params: {
+            limit: 1000,
+            offset: 0
+        },
+    });
+
+    console.log("transactions:", transactions);
+    console.log("First transaction:", transactions.data[0]);
+
     res.json(transactions);
 
 });
@@ -58,8 +90,15 @@ app.post('/chat', async (req, res, next) => {
 
     console.log(req.body);
 
+    const response = await gptAPI.sendMessage(req.body.message,{
+        parentMessageId: req.body.parentMessageId
+    });
+
+    console.log(response.text);
+
     res.json({
-        message : req.body.message,
+        message : response.text,
+        id: response.id
     });
 
 });
