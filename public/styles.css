@@ -134,6 +134,7 @@ form input[type="text"]{
     list-style-type: none;
     padding: 0;
     overflow: scroll;
+    max-height: 100%;
 }
 
 #transactions ol li{

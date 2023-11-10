@@ -6,9 +6,11 @@ const { Moneyhub } = require("@mft/moneyhub-api-client");
 const PORT = process.env.PORT || 3000;
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.static('public'))
+app.use(bodyParser.json())
 
 const PRIVATE_KEY = JSON.parse(fs.readFileSync(`${__dirname}/private_key.pem`, "utf8"));
 
@@ -30,39 +32,6 @@ const config = {
         ]
     },
   };
-
-(async function(){
-
-    const mh = await Moneyhub(config);
-
-    const users = await mh.getUsers();
-
-    const user = users.data[0]
-
-    console.log(user);
-
-    const queryParams = { limit: 10, offset: 0 , showTransactionData: true, showPerformanceScore: false};
-    const accounts = await mh.getAccounts({
-        userId: user.userId,
-        params: queryParams,
-    });
-
-    console.log("accounts:", accounts);
-
-    const currentAccount = accounts.data[1];
-
-    console.log("currentAccount:", currentAccount)
-
-    const Q = { limit: 1000, offset: 0 };
-    const transactions = await mh.getTransactions({
-        userId: user.userId,
-        params: Q,
-    });
-
-    console.log("transactions:", transactions);
-    console.log("First transaction:", transactions.data[0])
-
-}());
 
 app.get('/transactions', async(req, res, next) => {
 
@@ -102,6 +71,14 @@ app.get('/transactions', async(req, res, next) => {
     console.log("First transaction:", transactions.data[0]);
 
     res.json(transactions);
+
+});
+
+app.post('/chat', (req, res, next) => {
+
+    console.log(req.body);
+
+    res.json(req.body);
 
 });
 
